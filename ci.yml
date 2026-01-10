@@ -4,10 +4,10 @@ on:
     push:
       branches:
         - staging
-        - main
+        - master
     pull_request:
       branches: 
-      [ main,staging ]
+      [ master,staging ]
 jobs:
   test-shoppingcart:
     name: Test ShoppingCart
