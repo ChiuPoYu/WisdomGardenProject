@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //Service ¨Ì¿àª`¤J
 builder.Services.AddScoped<IConvertService, ConvertService>();
-
+  
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
