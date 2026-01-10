@@ -39,7 +39,7 @@ namespace ShoppingCart.Tests.Models
             // Assert
             Assert.Equal(expectedValid, isValid);
         }
-
+        
         [Fact]
         public void Coupon_過期券不應該適用()
         {
