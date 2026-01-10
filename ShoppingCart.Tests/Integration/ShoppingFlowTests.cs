@@ -20,6 +20,8 @@ namespace ShoppingCart.Tests.Integration
             cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 25.00f, quantity = 12 });
             cart.products.Add(new Product("麵包", ProductType.食品) { price = 9.00f, quantity = 5 });
 
+
+
             // Act - 建立訂單並計算
             var order = new Order
             {
