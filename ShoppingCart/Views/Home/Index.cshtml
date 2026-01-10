@@ -1,0 +1,54 @@
+﻿@model ShoppingCart.Models.User.Cart
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">模擬購物車情境</h1>
+</div>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>購物車輸入</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Checkout" method="post">
+                <div class="mb-3">
+                    <label for="promotionInput" class="form-label"><strong>促銷資訊：</strong></label>
+                    <input type="text" class="form-control" id="promotionInput" name="promotionInput"
+                           placeholder="格式：日期|折扣|產品品類，例如：2015.11.11|0.7|電子" value="2015.11.11|0.7|電子">
+                    <small class="form-text text-muted">格式：日期|折扣|產品品類</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="productsInput" class="form-label"><strong>購物內容輸入：</strong></label>
+                    <textarea class="form-control" id="productsInput" name="productsInput" rows="6" required
+                              placeholder="格式：數量*商品:單價&#10;例如：&#10;1*ipad:2399.00&#10;1*螢幕:1799.00&#10;12*啤酒:25.00&#10;5*麵包:9.00"></textarea>
+                    <small class="form-text text-muted">每種商品一行，格式為：數量*商品:單價</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="orderDate" class="form-label"><strong>結算日期：</strong></label>
+                    <input type="text" class="form-control" id="orderDate" name="orderDate" required
+                           placeholder="格式：yyyy.MM.dd，例如：2015.11.11" value="2015.11.11">
+                    <small class="form-text text-muted">格式：yyyy.MM.dd</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="couponInput" class="form-label"><strong>折價券輸入：</strong></label>
+                    <input type="text" class="form-control" id="couponInput" name="couponInput"
+                           placeholder="格式：到期日 消費門檻 折扣金額，例如：2016.3.2 1000 200（沒有則留空）" value="2016.3.2 1000 200">
+                    <small class="form-text text-muted">格式：到期日 消費門檻 折扣金額（用空格分隔），沒有則留空</small>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-cart-check"></i> 結帳
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

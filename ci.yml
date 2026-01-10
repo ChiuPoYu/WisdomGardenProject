@@ -1,0 +1,52 @@
+name: CI Pipeline
+
+on:
+    push:
+      branches:
+        - staging
+        - main
+    pull_request:
+      branches: 
+      [ main,staging ]
+jobs:
+  test-shoppingcart:
+    name: Test ShoppingCart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      
+      - name: Restore dependencies
+        run: dotnet restore ShoppingCart/ShoppingCart.csproj
+      
+      - name: Build
+        run: dotnet build ShoppingCart/ShoppingCart.csproj --no-restore --configuration Release
+      
+      - name: Test
+        run: dotnet test ShoppingCart.Tests/ShoppingCart.Tests.csproj --no-build --configuration Release --verbosity normal
+
+  test-dbscripts:
+    name: Test DBScriptsConvert
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      
+      - name: Restore dependencies
+        run: dotnet restore DBScriptsConvert/DBScriptsConvert.csproj
+      
+      - name: Build
+        run: dotnet build DBScriptsConvert/DBScriptsConvert.csproj --no-restore --configuration Release
+      
+      - name: Test
+        run: dotnet test DBScriptsConvert/tests --no-build --configuration Release --verbosity normal

@@ -1,0 +1,139 @@
+@model ShoppingCart.Models.User.Order
+@{
+    ViewData["Title"] = "訂單確認";
+
+    var subtotal = Model.cart.products.Sum(p => p.price * p.quantity);
+    var total = subtotal;
+    var discount = 0f;
+    var isValidCoupon = false;
+    var promoDiscount = 0f;
+
+    if (Model.promotion != null)
+    {
+        promoDiscount = Model.cart.products.Where(p => p.productType == Model.promotion.productType).Sum(p => p.price * p.quantity * (1-Model.promotion.discountPercent));
+        discount += promoDiscount;
+        subtotal = subtotal - promoDiscount;
+    }
+
+    if (Model.cart.coupon != null 
+        && Model.cart.coupon.expiredAt > Model.createdAt 
+        && subtotal >= Model.cart.coupon.spendAmount)
+    {
+        discount += Model.cart.coupon.discountAmount;
+        subtotal = subtotal - Model.cart.coupon.discountAmount;
+        isValidCoupon = true;
+    }
+}
+
+<div class="text-center">
+    <h1 class="display-4">訂單確認</h1>
+</div>
+
+<div class="container mt-4">
+    <div class="alert alert-success text-center" role="alert">
+        <h4 class="alert-heading">結帳成功！</h4>
+        <p>您的訂單已成功建立</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h3>訂單資訊</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>訂單日期：</strong>@Model.createdAt.ToString("yyyy年MM月dd日")</p>
+            
+            <h5 class="mt-3">訂單明細</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>商品名稱</th>
+                        <th>單價</th>
+                        <th>數量</th>
+                        <th class="text-end">小計</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.cart.products)
+                    {
+                        <tr>
+                            <td>@product.name</td>
+                            <td>$@product.price.ToString("N2")</td>
+                            <td>@product.quantity</td>
+                            <td class="text-end">$@((product.price * product.quantity).ToString("N2"))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h3>訂單金額</h3>
+        </div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-8 text-end"><strong>商品小計：</strong></div>
+                <div class="col-4 text-end">$@total.ToString("N2")</div>
+            </div>
+
+            @if (Model.promotion != null)
+            {
+                <div class="row mb-2">
+                    <div class="col-8 text-end">
+                        促銷活動 ( @Model.promotion.productType 打 @Model.promotion.discountPercent 折 ) :
+                    </div>
+                    <div class="col-4 text-end">
+                        -$ @(promoDiscount.ToString("N2"))
+                        
+                    </div>
+                </div>
+            }
+
+
+            @if (Model.cart.coupon != null)
+            {
+                <div class="row mb-2">
+                    <div class="col-8 text-end">
+                        <span class="@(isValidCoupon ? "text-success" : "text-danger")">
+                            折價券 (滿 $@Model.cart.coupon.spendAmount 折 $@Model.cart.coupon.discountAmount) :
+                        </span>
+                    </div>
+                    @if (isValidCoupon)
+                    {
+                        <div class="col-4 text-end">
+                            -$@(Model.cart.coupon.discountAmount.ToString("N2"))
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-4 text-end">
+                            -$ 0.00
+                        </div>
+                        <small class="danger">
+                        (折價券不適用 :
+                        @if (Model.cart.coupon.expiredAt <= Model.createdAt)
+                        {
+                            <span>已過期 - 到期日：@Model.cart.coupon.expiredAt.ToString("yyyy.MM.dd")</span>
+                        }
+                        else if (subtotal < Model.cart.coupon.spendAmount)
+                        {
+                            <span>未達消費門檻 $@Model.cart.coupon.spendAmount</span>
+                        }
+                        )
+                        </small>
+                    }
+                </div>
+            }
+            <hr />
+            <div class="row">
+                <div class="col-8 text-end"><h4>訂單總金額：</h4></div>
+                <div class="col-4 text-end"><h4 class="text-success">$@subtotal.ToString("N2")</h4></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-primary btn-lg">返回購物車</a>
+    </div>
+</div>
