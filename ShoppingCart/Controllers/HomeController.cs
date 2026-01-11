@@ -12,22 +12,22 @@ namespace ShoppingCart.Controllers
         {
             new Product("ipad", ProductType.Electric),
             new Product("iphone", ProductType.Electric),
-            new Product("¿Ã¹õ", ProductType.Electric),
-            new Product("µ§°O«¬¹q¸£", ProductType.Electric),
-            new Product("Áä½L", ProductType.Electric),
-            new Product("ÄÑ¥]", ProductType.Food),
-            new Product("»æ°®", ProductType.Food),
-            new Product("³J¿|", ProductType.Food),
-            new Product("¤û¦×", ProductType.Food),
-            new Product("³½", ProductType.Food),
-            new Product("½­µæ", ProductType.Food),
-            new Product("À\¤y¯È", ProductType.LifeUsed),
-            new Product("¦¬¯Ç½c", ProductType.LifeUsed),
-            new Product("©@°ØªM", ProductType.LifeUsed),
-            new Product("«B³Ê", ProductType.LifeUsed),
-            new Product("°à°s", ProductType.Alcohol),
-            new Product("¥Õ°s", ProductType.Alcohol),
-            new Product("¥ñ¯S¥[", ProductType.Alcohol)
+            new Product("è¢å¹•", ProductType.Electric),
+            new Product("ç­†è¨˜å‹é›»è…¦", ProductType.Electric),
+            new Product("éµç›¤", ProductType.Electric),
+            new Product("éºµåŒ…", ProductType.Food),
+            new Product("é¤…ä¹¾", ProductType.Food),
+            new Product("è›‹ç³•", ProductType.Food),
+            new Product("ç‰›è‚‰", ProductType.Food),
+            new Product("é­š", ProductType.Food),
+            new Product("è”¬èœ", ProductType.Food),
+            new Product("é¤å·¾ç´™", ProductType.LifeUsed),
+            new Product("æ”¶ç´ç®±", ProductType.LifeUsed),
+            new Product("å’–å•¡æ¯", ProductType.LifeUsed),
+            new Product("é›¨å‚˜", ProductType.LifeUsed),
+            new Product("å•¤é…’", ProductType.Alcohol),
+            new Product("ç™½é…’", ProductType.Alcohol),
+            new Product("ä¼ç‰¹åŠ ", ProductType.Alcohol)
         };
 
         public IActionResult Index()
@@ -108,10 +108,10 @@ namespace ShoppingCart.Controllers
                     {
                         var productType = promotionParts[2] switch
                         {
-                            "¹q¤l" => ProductType.Electric,
-                            "­¹«~" => ProductType.Food,
-                            "¤é¥Î«~" => ProductType.LifeUsed,
-                            "°sÃş" => ProductType.Alcohol,
+                            "é›»å­" => ProductType.Electric,
+                            "é£Ÿå“" => ProductType.Food,
+                            "æ—¥ç”¨å“" => ProductType.LifeUsed,
+                            "é…’é¡" => ProductType.Alcohol,
                             _ => (ProductType?)null
                         };
                         
@@ -133,7 +133,7 @@ namespace ShoppingCart.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = $"¿é¤J®æ¦¡¿ù»~¡G{ex.Message}";
+                ViewBag.Error = $"è¼¸å…¥æ ¼å¼éŒ¯èª¤ï¼š{ex.Message}";
                 return View("Index");
             }
         }
