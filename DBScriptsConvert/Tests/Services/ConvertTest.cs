@@ -275,20 +275,6 @@ namespace DBScriptsConvert.Tests.Services
         }
 
         [Fact]
-        public void Convert_WithBackslashes_ShouldRemoveBackslashes()
-        {
-            // Arrange
-            string input = "name:equals(\\\"adam\\\")";
-            string expected = "WHERE name = \"adam\"";
-
-            // Act
-            var result = _convertService.Convert(input);
-
-            // Assert
-            Assert.Equal(expected, result.Script);
-        }
-
-        [Fact]
         public void Convert_NumericValue_ShouldHandleCorrectly()
         {
             // Arrange

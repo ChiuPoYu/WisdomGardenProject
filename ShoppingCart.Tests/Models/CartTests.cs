@@ -12,7 +12,7 @@ namespace ShoppingCart.Tests.Models
         {
             // Arrange
             var cart = new Cart();
-            var product = new Product("ipad", ProductType.電子)
+            var product = new Product("ipad", ProductType.Electric)
             {
                 price = 2399.00f,
                 quantity = 1
@@ -32,9 +32,9 @@ namespace ShoppingCart.Tests.Models
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("啤酒", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
 
             // Act
             var total = cart.products.Sum(p => p.price * p.quantity);

@@ -136,7 +136,7 @@ namespace DBScriptsConvert.Services
 
             return new ConvertData
             {
-                Script = result
+                Script = result+=script
             };
         }
     }

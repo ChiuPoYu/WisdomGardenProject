@@ -15,10 +15,10 @@ namespace ShoppingCart.Tests.Integration
         {
             // Arrange - 建立購物車並加入商品
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("麵包", ProductType.食品) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("啤酒", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("麵包", ProductType.Food) { price = 9.00f, quantity = 5 });
 
 
 
@@ -40,10 +40,10 @@ namespace ShoppingCart.Tests.Integration
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("麵包", ProductType.食品) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("啤酒", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("麵包", ProductType.Food) { price = 9.00f, quantity = 5 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);
 
             var order = new Order
@@ -74,8 +74,8 @@ namespace ShoppingCart.Tests.Integration
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1799.00f, quantity = 1 });
             cart.coupon = new Coupon(DateTime.Parse("2014-03-02"), 1000, 200); // 過期券
 
             var order = new Order
@@ -106,10 +106,10 @@ namespace ShoppingCart.Tests.Integration
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("麵包", ProductType.食品) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("啤酒", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("麵包", ProductType.Food) { price = 9.00f, quantity = 5 });
 
             var order = new Order
             {
@@ -118,8 +118,8 @@ namespace ShoppingCart.Tests.Integration
                 promotion = new Promotion
                 {
                     expiredAt = DateTime.Parse("2016-03-02"),
-                    discountPercent = 0.1f, // 電子產品打9折
-                    productType = ProductType.電子
+                    discountPercent = 0.1f, // Electric產品打9折
+                    productType = ProductType.Electric
                 }
             };
 
@@ -148,10 +148,10 @@ namespace ShoppingCart.Tests.Integration
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("麵包", ProductType.食品) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("啤酒", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("麵包", ProductType.Food) { price = 9.00f, quantity = 5 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);
 
             var order = new Order
@@ -162,7 +162,7 @@ namespace ShoppingCart.Tests.Integration
                 {
                     expiredAt = DateTime.Parse("2016-03-02"),
                     discountPercent = 0.1f,
-                    productType = ProductType.電子
+                    productType = ProductType.Electric
                 }
             };
 
@@ -204,7 +204,7 @@ namespace ShoppingCart.Tests.Integration
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("麵包", ProductType.食品) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("麵包", ProductType.Food) { price = 9.00f, quantity = 5 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200); // 門檻1000
 
             var order = new Order

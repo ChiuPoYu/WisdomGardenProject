@@ -15,13 +15,13 @@ namespace ShoppingCart.Tests.Models
             {
                 expiredAt = DateTime.Parse("2016-03-02"),
                 discountPercent = 0.1f,
-                productType = ProductType.電子
+                productType = ProductType.Electric
             };
 
             // Assert
             Assert.Equal(DateTime.Parse("2016-03-02"), promotion.expiredAt);
             Assert.Equal(0.1f, promotion.discountPercent);
-            Assert.Equal(ProductType.電子, promotion.productType);
+            Assert.Equal(ProductType.Electric, promotion.productType);
         }
 
         [Theory]
@@ -35,7 +35,7 @@ namespace ShoppingCart.Tests.Models
             {
                 expiredAt = DateTime.Parse(expiredDateStr),
                 discountPercent = 0.1f,
-                productType = ProductType.電子
+                productType = ProductType.Electric
             };
             var orderDate = DateTime.Parse(orderDateStr);
 
@@ -47,10 +47,10 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Theory]
-        [InlineData(ProductType.電子, 2000.00f, 0.1f, 200.00f)]
-        [InlineData(ProductType.電子, 1000.00f, 0.2f, 200.00f)]
-        [InlineData(ProductType.食品, 500.00f, 0.15f, 75.00f)]
-        [InlineData(ProductType.酒類, 300.00f, 0.5f, 150.00f)]
+        [InlineData(ProductType.Electric, 2000.00f, 0.1f, 200.00f)]
+        [InlineData(ProductType.Electric, 1000.00f, 0.2f, 200.00f)]
+        [InlineData(ProductType.Food, 500.00f, 0.15f, 75.00f)]
+        [InlineData(ProductType.Alcohol, 300.00f, 0.5f, 150.00f)]
         public void Promotion_應該正確計算折扣金額(ProductType type, float amount, float percent, float expectedDiscount)
         {
             // Arrange
@@ -73,15 +73,15 @@ namespace ShoppingCart.Tests.Models
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2000.00f, quantity = 1 });
-            cart.products.Add(new Product("麵包", ProductType.食品) { price = 100.00f, quantity = 1 });
-            cart.products.Add(new Product("啤酒", ProductType.酒類) { price = 50.00f, quantity = 1 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2000.00f, quantity = 1 });
+            cart.products.Add(new Product("麵包", ProductType.Food) { price = 100.00f, quantity = 1 });
+            cart.products.Add(new Product("啤酒", ProductType.Alcohol) { price = 50.00f, quantity = 1 });
 
             var promotion = new Promotion
             {
                 expiredAt = DateTime.Parse("2016-03-02"),
                 discountPercent = 0.1f,
-                productType = ProductType.電子
+                productType = ProductType.Electric
             };
 
             // Act
@@ -91,7 +91,7 @@ namespace ShoppingCart.Tests.Models
             var discount = eligibleAmount * promotion.discountPercent;
 
             // Assert
-            Assert.Equal(2000.00f, eligibleAmount, 2); // 只有電子產品
+            Assert.Equal(2000.00f, eligibleAmount, 2); // 只有Electric產品
             Assert.Equal(200.00f, discount, 2);
         }
 
@@ -100,15 +100,15 @@ namespace ShoppingCart.Tests.Models
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ipad", ProductType.電子) { price = 2000.00f, quantity = 1 });
-            cart.products.Add(new Product("iphone", ProductType.電子) { price = 1000.00f, quantity = 2 });
-            cart.products.Add(new Product("螢幕", ProductType.電子) { price = 1500.00f, quantity = 1 });
+            cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2000.00f, quantity = 1 });
+            cart.products.Add(new Product("iphone", ProductType.Electric) { price = 1000.00f, quantity = 2 });
+            cart.products.Add(new Product("螢幕", ProductType.Electric) { price = 1500.00f, quantity = 1 });
 
             var promotion = new Promotion
             {
                 expiredAt = DateTime.Parse("2016-03-02"),
                 discountPercent = 0.1f,
-                productType = ProductType.電子
+                productType = ProductType.Electric
             };
 
             // Act

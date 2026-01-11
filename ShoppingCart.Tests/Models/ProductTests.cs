@@ -10,7 +10,7 @@ namespace ShoppingCart.Tests.Models
         public void Product_應該正確初始化()
         {
             // Arrange & Act
-            var product = new Product("ipad", ProductType.電子)
+            var product = new Product("ipad", ProductType.Electric)
             {
                 price = 2399.00f,
                 quantity = 1
@@ -18,7 +18,7 @@ namespace ShoppingCart.Tests.Models
 
             // Assert
             Assert.Equal("ipad", product.name);
-            Assert.Equal(ProductType.電子, product.productType);
+            Assert.Equal(ProductType.Electric, product.productType);
             Assert.Equal(2399.00f, product.price);
             Assert.Equal(1, product.quantity);
         }
@@ -31,7 +31,7 @@ namespace ShoppingCart.Tests.Models
         public void Product_應該正確計算小計(string name, float price, int quantity, float expectedTotal)
         {
             // Arrange
-            var product = new Product(name, ProductType.電子)
+            var product = new Product(name, ProductType.Electric)
             {
                 price = price,
                 quantity = quantity
@@ -48,16 +48,16 @@ namespace ShoppingCart.Tests.Models
         public void Product_應該正確設定產品類型()
         {
             // Arrange & Act
-            var electronicProduct = new Product("ipad", ProductType.電子);
-            var foodProduct = new Product("麵包", ProductType.食品);
-            var householdProduct = new Product("雨傘", ProductType.日用品);
-            var alcoholProduct = new Product("啤酒", ProductType.酒類);
+            var electronicProduct = new Product("ipad", ProductType.Electric);
+            var foodProduct = new Product("麵包", ProductType.Food);
+            var householdProduct = new Product("雨傘", ProductType.LifeUsed);
+            var alcoholProduct = new Product("啤酒", ProductType.Alcohol);
 
             // Assert
-            Assert.Equal(ProductType.電子, electronicProduct.productType);
-            Assert.Equal(ProductType.食品, foodProduct.productType);
-            Assert.Equal(ProductType.日用品, householdProduct.productType);
-            Assert.Equal(ProductType.酒類, alcoholProduct.productType);
+            Assert.Equal(ProductType.Electric, electronicProduct.productType);
+            Assert.Equal(ProductType.Food, foodProduct.productType);
+            Assert.Equal(ProductType.LifeUsed, householdProduct.productType);
+            Assert.Equal(ProductType.Alcohol, alcoholProduct.productType);
         }
 
         [Theory]
@@ -67,7 +67,7 @@ namespace ShoppingCart.Tests.Models
         public void Product_應該允許設定任意數量(int quantity)
         {
             // Arrange
-            var product = new Product("ipad", ProductType.電子)
+            var product = new Product("ipad", ProductType.Electric)
             {
                 quantity = quantity
             };
@@ -84,7 +84,7 @@ namespace ShoppingCart.Tests.Models
         public void Product_應該允許設定任意價格(float price)
         {
             // Arrange
-            var product = new Product("測試商品", ProductType.電子)
+            var product = new Product("測試商品", ProductType.Electric)
             {
                 price = price
             };

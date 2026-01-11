@@ -12,30 +12,30 @@ namespace ShoppingCart.Controllers
         private readonly List<Product> _products = new List<Product>
         {
             // 電子產品
-            new Product("ipad", ProductType.電子),
-            new Product("iphone", ProductType.電子),
-            new Product("螢幕", ProductType.電子),
-            new Product("筆記型電腦", ProductType.電子),
-            new Product("鍵盤", ProductType.電子),
+            new Product("ipad", ProductType.Electric),
+            new Product("iphone", ProductType.Electric),
+            new Product("螢幕", ProductType.Electric),
+            new Product("筆記型電腦", ProductType.Electric),
+            new Product("鍵盤", ProductType.Electric),
             
             // 食品
-            new Product("麵包", ProductType.食品),
-            new Product("餅乾", ProductType.食品),
-            new Product("蛋糕", ProductType.食品),
-            new Product("牛肉", ProductType.食品),
-            new Product("魚", ProductType.食品),
-            new Product("蔬菜", ProductType.食品),
+            new Product("麵包", ProductType.Food),
+            new Product("餅乾", ProductType.Food),
+            new Product("蛋糕", ProductType.Food),
+            new Product("牛肉", ProductType.Food),
+            new Product("魚", ProductType.Food),
+            new Product("蔬菜", ProductType.Food),
             
             // 日用品
-            new Product("餐巾紙", ProductType.日用品),
-            new Product("收納箱", ProductType.日用品),
-            new Product("咖啡杯", ProductType.日用品),
-            new Product("雨傘", ProductType.日用品),
+            new Product("餐巾紙", ProductType.LifeUsed),
+            new Product("收納箱", ProductType.LifeUsed),
+            new Product("咖啡杯", ProductType.LifeUsed),
+            new Product("雨傘", ProductType.LifeUsed),
             
             // 酒類
-            new Product("啤酒", ProductType.酒類),
-            new Product("白酒", ProductType.酒類),
-            new Product("伏特加", ProductType.酒類)
+            new Product("啤酒", ProductType.Alcohol),
+            new Product("白酒", ProductType.Alcohol),
+            new Product("伏特加", ProductType.Alcohol)
         };
 
         public IActionResult Index()
@@ -110,12 +110,18 @@ namespace ShoppingCart.Controllers
                     {
                         DateTime expiredAt = DateTime.Parse(promotionParts[0].Replace('.', '/'));
                         float discount = float.Parse(promotionParts[1]);
-                        ProductType type = (ProductType)Enum.Parse(typeof(ProductType), promotionParts[2]);
                         order.promotion = new Promotion
                         {
                             expiredAt = expiredAt,
                             discountPercent = discount,
-                            productType = type // 假設促銷活動針對電子產品
+                            productType = promotionParts[2] switch
+                            {
+                                "電子" => ProductType.Electric,
+                                "食品" => ProductType.Food,
+                                "日用品" => ProductType.LifeUsed,
+                                "酒類" => ProductType.Alcohol,
+                                _ => throw new ArgumentException($"未知的商品類型: {promotionParts[2]}")
+                            }
                         };
                     }
                 }
