@@ -8,7 +8,7 @@ namespace ShoppingCart.Tests.Models
     public class CartTests
     {
         [Fact]
-        public void Cart_À³¸Ó¯à°÷·s¼W°Ó«~()
+        public void Cart_ShouldBeAbleToAddProduct()
         {
             // Arrange
             var cart = new Cart();
@@ -28,13 +28,13 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Cart_À³¸Ó¯à°÷­pºâ°Ó«~Á`ÃB()
+        public void Cart_ShouldBeAbleToCalculateTotalAmount()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("èž¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
 
             // Act
             var total = cart.products.Sum(p => p.price * p.quantity);
@@ -44,7 +44,7 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Cart_À³¸Ó¯à°÷¥[¤J§é»ù¨é()
+        public void Cart_ShouldBeAbleToAddCoupon()
         {
             // Arrange
             var cart = new Cart();
@@ -60,7 +60,7 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Cart_ªÅÁÊª«¨®À³¸Ó¦^¶Ç¹sÁ`ÃB()
+        public void Cart_EmptyCart_ShouldReturnZeroTotal()
         {
             // Arrange
             var cart = new Cart();

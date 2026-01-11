@@ -8,7 +8,7 @@ namespace ShoppingCart.Tests.Models
     public class OrderTests
     {
         [Fact]
-        public void Order_À³¸Ó¥¿½T«Ø¥ß­q³æ()
+        public void Order_ShouldBeAbleToCreateOrderCorrectly()
         {
             // Arrange
             var cart = new Cart();
@@ -29,14 +29,14 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Order_À³¸Ó¥¿½T­pºâµL§é¦©ªºÁ`ª÷ÃB()
+        public void Order_ShouldBeAbleToCalculateTotalAmountWithoutDiscountCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("è¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 9.00f, quantity = 5 });
 
             var order = new Order
             {
@@ -52,12 +52,12 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Order_À³¸Ó¥¿½T®M¥Î¦³®Ä§é»ù¨é()
+        public void Order_ShouldBeAbleToApplyCouponCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("è¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);
 
             var order = new Order
@@ -84,12 +84,12 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Order_¹L´Á§é»ù¨é¤£À³¸Ó³Q®M¥Î()
+        public void Order_ExpiredCoupon_ShouldNotBeApplied()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.coupon = new Coupon(DateTime.Parse("2015-01-01"), 1000, 200); // ¹L´Á¨é
+            cart.coupon = new Coupon(DateTime.Parse("2015-01-01"), 1000, 200); // éæœŸåˆ¸
 
             var order = new Order
             {
@@ -114,12 +114,12 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Order_À³¸Ó¥¿½T®M¥Î«P¾P¬¡°Ê()
+        public void Order_ShouldBeAbleToApplyPromotionCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2000.00f, quantity = 1 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 100.00f, quantity = 1 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 100.00f, quantity = 1 });
 
             var order = new Order
             {
@@ -128,7 +128,7 @@ namespace ShoppingCart.Tests.Models
                 promotion = new Promotion
                 {
                     expiredAt = DateTime.Parse("2016-03-02"),
-                    discountPercent = 0.1f, // 10% §é¦©
+                    discountPercent = 0.1f, // 10% æŠ˜æ‰£
                     productType = ProductType.Electric
                 }
             };
@@ -154,12 +154,12 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Order_À³¸Ó¦P®É®M¥Î§é»ù¨é©M«P¾P¬¡°Ê()
+        public void Order_ShouldBeAbleToApplyBothCouponAndPromotionCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2000.00f, quantity = 1 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 500.00f, quantity = 1 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 500.00f, quantity = 1 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);
 
             var order = new Order
@@ -177,7 +177,7 @@ namespace ShoppingCart.Tests.Models
             // Act
             var subtotal = order.cart.products.Sum(p => p.price * p.quantity);
             
-            // «P¾P§é¦©
+            // ä¿ƒéŠ·æŠ˜æ‰£
             var promotionDiscount = 0f;
             if (order.promotion != null && order.promotion.expiredAt > order.createdAt)
             {
@@ -189,7 +189,7 @@ namespace ShoppingCart.Tests.Models
 
             var afterPromotion = subtotal - promotionDiscount;
 
-            // §é»ù¨é§é¦©
+            // æŠ˜åƒ¹åˆ¸æŠ˜æ‰£
             var couponDiscount = 0f;
             if (order.cart.coupon != null && 
                 order.cart.coupon.expiredAt > order.createdAt && 

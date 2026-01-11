@@ -8,7 +8,7 @@ namespace ShoppingCart.Tests.Models
     public class PromotionTests
     {
         [Fact]
-        public void Promotion_À³¸Ó¥¿½Tªì©l¤Æ()
+        public void Promotion_ShouldBeAbleToInitializeCorrectly()
         {
             // Arrange & Act
             var promotion = new Promotion
@@ -25,10 +25,10 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Theory]
-        [InlineData("2016-03-02", "2015-11-11", true)]  // ¦³®Ä¡G¥¼¹L´Á
-        [InlineData("2016-03-02", "2016-03-03", false)] // µL®Ä¡G¤w¹L´Á
-        [InlineData("2015-01-01", "2015-11-11", false)] // µL®Ä¡G¤w¹L´Á
-        public void Promotion_À³¸Ó¥¿½T§PÂ_¬O§_¦³®Ä(string expiredDateStr, string orderDateStr, bool expectedValid)
+        [InlineData("2016-03-02", "2015-11-11", true)]  // æœ‰æ•ˆï¼šæœªéæœŸ
+        [InlineData("2016-03-02", "2016-03-03", false)] // ç„¡æ•ˆï¼šå·²éæœŸ
+        [InlineData("2015-01-01", "2015-11-11", false)] // ç„¡æ•ˆï¼šå·²éæœŸ
+        public void Promotion_ShouldBeAbleToCheckIfValid(string expiredDateStr, string orderDateStr, bool expectedValid)
         {
             // Arrange
             var promotion = new Promotion
@@ -51,7 +51,7 @@ namespace ShoppingCart.Tests.Models
         [InlineData(ProductType.Electric, 1000.00f, 0.2f, 200.00f)]
         [InlineData(ProductType.Food, 500.00f, 0.15f, 75.00f)]
         [InlineData(ProductType.Alcohol, 300.00f, 0.5f, 150.00f)]
-        public void Promotion_À³¸Ó¥¿½T­pºâ§é¦©ª÷ÃB(ProductType type, float amount, float percent, float expectedDiscount)
+        public void Promotion_ShouldBeAbleToCalculateDiscountAmountCorrectly(ProductType type, float amount, float percent, float expectedDiscount)
         {
             // Arrange
             var promotion = new Promotion
@@ -69,13 +69,13 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Promotion_À³¸Ó¥u¹ï«ü©wÃş«¬°Ó«~¦³®Ä()
+        public void Promotion_ShouldOnlyApplyToSpecifiedProductType()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2000.00f, quantity = 1 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 100.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 50.00f, quantity = 1 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 100.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 50.00f, quantity = 1 });
 
             var promotion = new Promotion
             {
@@ -91,18 +91,18 @@ namespace ShoppingCart.Tests.Models
             var discount = eligibleAmount * promotion.discountPercent;
 
             // Assert
-            Assert.Equal(2000.00f, eligibleAmount, 2); // ¥u¦³Electric²£«~
+            Assert.Equal(2000.00f, eligibleAmount, 2); // åªæœ‰Electricå•†å“
             Assert.Equal(200.00f, discount, 2);
         }
 
         [Fact]
-        public void Promotion_¦h­Ó¬Û¦PÃş«¬°Ó«~À³¸Ó¥ş³¡®M¥Î§é¦©()
+        public void Promotion_MultipleSameTypeProducts_ShouldApplyPromotionCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2000.00f, quantity = 1 });
             cart.products.Add(new Product("iphone", ProductType.Electric) { price = 1000.00f, quantity = 2 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1500.00f, quantity = 1 });
+            cart.products.Add(new Product("è¢å¹•", ProductType.Electric) { price = 1500.00f, quantity = 1 });
 
             var promotion = new Promotion
             {

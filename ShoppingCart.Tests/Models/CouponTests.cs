@@ -8,7 +8,7 @@ namespace ShoppingCart.Tests.Models
     public class CouponTests
     {
         [Fact]
-        public void Coupon_À³¸Ó¥¿½Tªì©l¤Æ()
+        public void Coupon_ShouldBeAbleToInitializeCorrectly()
         {
             // Arrange & Act
             var expiredDate = DateTime.Parse("2016-03-02");
@@ -21,11 +21,11 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Theory]
-        [InlineData("2016-03-02", 1000, 200, "2015-11-11", 4500, true)] // ¦³®Ä¡G¥¼¹L´Á¥B¹F¨ìªùÂe
-        [InlineData("2016-03-02", 1000, 200, "2016-03-03", 4500, false)] // µL®Ä¡G¤w¹L´Á
-        [InlineData("2016-03-02", 1000, 200, "2015-11-11", 500, false)] // µL®Ä¡G¥¼¹FªùÂe
-        [InlineData("2016-03-02", 5000, 200, "2015-11-11", 4500, false)] // µL®Ä¡G¥¼¹FªùÂe
-        public void Coupon_À³¸Ó¥¿½T§PÂ_¬O§_¥i¥Î(string expiredDateStr, int spendAmount, int discountAmount, 
+        [InlineData("2016-03-02", 1000, 200, "2015-11-11", 4500, true)] // æœ‰æ•ˆï¼šæœªéæœŸä¸”é”åˆ°é–€æª»
+        [InlineData("2016-03-02", 1000, 200, "2016-03-03", 4500, false)] // ç„¡æ•ˆï¼šå·²éæœŸ
+        [InlineData("2016-03-02", 1000, 200, "2015-11-11", 500, false)] // ç„¡æ•ˆï¼šæœªé”é–€æª»
+        [InlineData("2016-03-02", 5000, 200, "2015-11-11", 4500, false)] // ç„¡æ•ˆï¼šæœªé”é–€æª»
+        public void Coupon_ShouldBeAbleToCheckIfApplicable(string expiredDateStr, int spendAmount, int discountAmount, 
             string orderDateStr, float cartTotal, bool expectedValid)
         {
             // Arrange
@@ -41,7 +41,7 @@ namespace ShoppingCart.Tests.Models
         }
         
         [Fact]
-        public void Coupon_¹L´Á¨é¤£À³¸Ó¾A¥Î()
+        public void Coupon_ExpiredCoupon_ShouldNotBeApplicable()
         {
             // Arrange
             var coupon = new Coupon(DateTime.Parse("2015-01-01"), 1000, 200);
@@ -56,7 +56,7 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Coupon_¥¼¹FªùÂe¤£À³¸Ó¾A¥Î()
+        public void Coupon_BelowThreshold_ShouldNotBeApplicable()
         {
             // Arrange
             var coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);

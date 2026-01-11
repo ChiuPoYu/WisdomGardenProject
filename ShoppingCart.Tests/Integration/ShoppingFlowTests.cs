@@ -6,23 +6,23 @@ using Xunit;
 namespace ShoppingCart.Tests.Integration
 {
     /// <summary>
-    /// ¾ã¦X´ú¸Õ¡G´ú¸Õ§¹¾ãªºÁÊª«¬yµ{
+    /// Integration tests for complete shopping flow
     /// </summary>
     public class ShoppingFlowTests
     {
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_µL§é¦©_À³¸Ó¥¿½T­pºâÁ`ª÷ÃB()
+        public void CompleteShoppingFlow_NoDiscount_ShouldCalculateTotalCorrectly()
         {
-            // Arrange - «Ø¥ßÁÊª«¨®¨Ã¥[¤J°Ó«~
+            // Arrange - å»ºç«‹è³¼ç‰©è»Šä¸¦åŠ å…¥å•†å“
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("èž¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 9.00f, quantity = 5 });
 
 
 
-            // Act - «Ø¥ß­q³æ¨Ã­pºâ
+            // Act - å»ºç«‹è¨‚å–®ä¸¦è¨ˆç®—
             var order = new Order
             {
                 cart = cart,
@@ -36,14 +36,14 @@ namespace ShoppingCart.Tests.Integration
         }
 
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_¦³®Ä§é»ù¨é_À³¸Ó¥¿½T§é¦©()
+        public void CompleteShoppingFlow_ValidCoupon_ShouldApplyDiscountCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("èž¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 9.00f, quantity = 5 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);
 
             var order = new Order
@@ -70,13 +70,13 @@ namespace ShoppingCart.Tests.Integration
         }
 
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_¹L´Á§é»ù¨é_¤£À³¸Ó§é¦©()
+        public void CompleteShoppingFlow_ExpiredCoupon_ShouldNotApplyDiscount()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.coupon = new Coupon(DateTime.Parse("2014-03-02"), 1000, 200); // ¹L´Á¨é
+            cart.products.Add(new Product("èž¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.coupon = new Coupon(DateTime.Parse("2014-03-02"), 1000, 200); // éŽæœŸåˆ¸
 
             var order = new Order
             {
@@ -102,14 +102,14 @@ namespace ShoppingCart.Tests.Integration
         }
 
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_¦³«P¾P¬¡°Ê_À³¸Ó¥¿½T­pºâ()
+        public void CompleteShoppingFlow_WithPromotion_ShouldCalculateCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("èž¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 9.00f, quantity = 5 });
 
             var order = new Order
             {
@@ -118,7 +118,7 @@ namespace ShoppingCart.Tests.Integration
                 promotion = new Promotion
                 {
                     expiredAt = DateTime.Parse("2016-03-02"),
-                    discountPercent = 0.1f, // Electric²£«~¥´9§é
+                    discountPercent = 0.1f, // Electricç”¢å“æ‰“9æŠ˜
                     productType = ProductType.Electric
                 }
             };
@@ -144,14 +144,14 @@ namespace ShoppingCart.Tests.Integration
         }
 
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_¦P®É¦³§é»ù¨é©M«P¾P_À³¸Ó¥¿½T­pºâ()
+        public void CompleteShoppingFlow_WithCouponAndPromotion_ShouldCalculateCorrectly()
         {
             // Arrange
             var cart = new Cart();
             cart.products.Add(new Product("ipad", ProductType.Electric) { price = 2399.00f, quantity = 1 });
-            cart.products.Add(new Product("¿Ã¹õ", ProductType.Electric) { price = 1799.00f, quantity = 1 });
-            cart.products.Add(new Product("°à°s", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 9.00f, quantity = 5 });
+            cart.products.Add(new Product("èž¢å¹•", ProductType.Electric) { price = 1799.00f, quantity = 1 });
+            cart.products.Add(new Product("å•¤é…’", ProductType.Alcohol) { price = 25.00f, quantity = 12 });
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 9.00f, quantity = 5 });
             cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200);
 
             var order = new Order
@@ -169,7 +169,7 @@ namespace ShoppingCart.Tests.Integration
             // Act
             var subtotal = order.cart.products.Sum(p => p.price * p.quantity);
             
-            // ¥ý®M¥Î«P¾P§é¦©
+            // å…ˆå¥—ç”¨ä¿ƒéŠ·æŠ˜æ‰£
             var promotionDiscount = 0f;
             if (order.promotion != null && order.promotion.expiredAt > order.createdAt)
             {
@@ -181,7 +181,7 @@ namespace ShoppingCart.Tests.Integration
 
             var afterPromotion = subtotal - promotionDiscount;
 
-            // ¦A®M¥Î§é»ù¨é
+            // å†å¥—ç”¨æŠ˜åƒ¹åˆ¸
             var couponDiscount = 0f;
             if (order.cart.coupon != null && 
                 order.cart.coupon.expiredAt > order.createdAt && 
@@ -200,12 +200,12 @@ namespace ShoppingCart.Tests.Integration
         }
 
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_¥¼¹F§é»ù¨éªùÂe_¤£À³¸Ó§é¦©()
+        public void CompleteShoppingFlow_BelowCouponThreshold_ShouldNotApplyDiscount()
         {
             // Arrange
             var cart = new Cart();
-            cart.products.Add(new Product("ÄÑ¥]", ProductType.Food) { price = 9.00f, quantity = 5 });
-            cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200); // ªùÂe1000
+            cart.products.Add(new Product("éºµåŒ…", ProductType.Food) { price = 9.00f, quantity = 5 });
+            cart.coupon = new Coupon(DateTime.Parse("2016-03-02"), 1000, 200); // é–€æª»1000
 
             var order = new Order
             {
@@ -231,7 +231,7 @@ namespace ShoppingCart.Tests.Integration
         }
 
         [Fact]
-        public void §¹¾ãÁÊª«¬yµ{_ªÅÁÊª«¨®_À³¸Ó¦^¶Ç¹s()
+        public void CompleteShoppingFlow_EmptyCart_ShouldReturnZero()
         {
             // Arrange
             var cart = new Cart();

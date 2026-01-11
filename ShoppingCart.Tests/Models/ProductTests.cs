@@ -7,7 +7,7 @@ namespace ShoppingCart.Tests.Models
     public class ProductTests
     {
         [Fact]
-        public void Product_¿≥∏”•øΩT™Ï©l§∆()
+        public void Product_ShouldBeAbleToInitializeCorrectly()
         {
             // Arrange & Act
             var product = new Product("ipad", ProductType.Electric)
@@ -25,10 +25,10 @@ namespace ShoppingCart.Tests.Models
 
         [Theory]
         [InlineData("ipad", 2399.00f, 1, 2399.00f)]
-        [InlineData("∞‡∞s", 25.00f, 12, 300.00f)]
-        [InlineData("ƒ—•]", 9.00f, 5, 45.00f)]
-        [InlineData("ø√πı", 1799.00f, 2, 3598.00f)]
-        public void Product_¿≥∏”•øΩT≠p∫‚§p≠p(string name, float price, int quantity, float expectedTotal)
+        [InlineData("Âï§ÈÖí", 25.00f, 12, 300.00f)]
+        [InlineData("È∫µÂåÖ", 9.00f, 5, 45.00f)]
+        [InlineData("Ëû¢Âπï", 1799.00f, 2, 3598.00f)]
+        public void Product_ShouldBeAbleToCalculateTotalCorrectly(string name, float price, int quantity, float expectedTotal)
         {
             // Arrange
             var product = new Product(name, ProductType.Electric)
@@ -45,13 +45,13 @@ namespace ShoppingCart.Tests.Models
         }
 
         [Fact]
-        public void Product_¿≥∏”•øΩT≥]©w≤£´~√˛´¨()
+        public void Product_ShouldBeAbleToSetProductType()
         {
             // Arrange & Act
             var electronicProduct = new Product("ipad", ProductType.Electric);
-            var foodProduct = new Product("ƒ—•]", ProductType.Food);
-            var householdProduct = new Product("´B≥ ", ProductType.LifeUsed);
-            var alcoholProduct = new Product("∞‡∞s", ProductType.Alcohol);
+            var foodProduct = new Product("È∫µÂåÖ", ProductType.Food);
+            var householdProduct = new Product("ËÇ•ÁöÇ", ProductType.LifeUsed);
+            var alcoholProduct = new Product("Âï§ÈÖí", ProductType.Alcohol);
 
             // Assert
             Assert.Equal(ProductType.Electric, electronicProduct.productType);
@@ -64,7 +64,7 @@ namespace ShoppingCart.Tests.Models
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(100)]
-        public void Product_¿≥∏”§π≥\≥]©w•Ù∑Nº∆∂q(int quantity)
+        public void Product_ShouldBeAbleToSetDifferentQuantity(int quantity)
         {
             // Arrange
             var product = new Product("ipad", ProductType.Electric)
@@ -81,10 +81,10 @@ namespace ShoppingCart.Tests.Models
         [InlineData(9.99f)]
         [InlineData(2399.00f)]
         [InlineData(99999.99f)]
-        public void Product_¿≥∏”§π≥\≥]©w•Ù∑Nª˘ÆÊ(float price)
+        public void Product_ShouldBeAbleToSetDifferentPrice(float price)
         {
             // Arrange
-            var product = new Product("¥˙∏’∞”´~", ProductType.Electric)
+            var product = new Product("Ê∏¨Ë©¶ÂïÜÂìÅ", ProductType.Electric)
             {
                 price = price
             };
