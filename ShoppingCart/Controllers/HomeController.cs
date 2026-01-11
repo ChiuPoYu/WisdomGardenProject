@@ -53,7 +53,7 @@ namespace ShoppingCart.Controllers
 
                 #region 解析購物車商品
                 var cart = new Cart();
-                var productLines = productsInput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+                var productLines = productsInput.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 
                 foreach (var line in productLines)
                 {
@@ -76,12 +76,13 @@ namespace ShoppingCart.Controllers
 
                     // 根據商品名稱判斷類型（簡化處理）
                     var product = _products.FirstOrDefault(p => p.name == productName);
-                    product.price = price;
-                    product.quantity = quantity;
-
-                    cart.products.Add(product);
+                    if (product != null)
+                    {
+                        product.price = price;
+                        product.quantity = quantity;
+                        cart.products.Add(product);
+                    }
                 }
-
                 #endregion
 
                 #region 解析折價券
