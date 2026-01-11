@@ -9,10 +9,12 @@ on:
     branches: 
       - staging
       - master
+
 jobs:
   test-shoppingcart:
     name: Test ShoppingCart
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,17 +25,18 @@ jobs:
           dotnet-version: '10.0.x'
       
       - name: Restore dependencies
-        run: dotnet restore ShoppingCart/ShoppingCart.csproj
+        run: dotnet restore
       
       - name: Build
-        run: dotnet build ShoppingCart/ShoppingCart.csproj --no-restore --configuration Release
+        run: dotnet build --no-restore --configuration Release
       
-      - name: Test
+      - name: Test ShoppingCart
         run: dotnet test ShoppingCart.Tests/ShoppingCart.Tests.csproj --no-restore --configuration Release --verbosity normal
 
   test-dbscripts:
     name: Test DBScriptsConvert
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,10 +47,10 @@ jobs:
           dotnet-version: '10.0.x'
       
       - name: Restore dependencies
-        run: dotnet restore DBScriptsConvert/DBScriptsConvert.csproj
+        run: dotnet restore
       
       - name: Build
-        run: dotnet build DBScriptsConvert/DBScriptsConvert.csproj --no-restore --configuration Release
+        run: dotnet build --no-restore --configuration Release
       
-      - name: Test
-        run: dotnet test DBScriptsConvert/Tests --no-restore --configuration Release --verbosity normal
+      - name: Test DBScriptsConvert
+        run: dotnet test DBScriptsConvert/DBScriptsConvert.csproj --no-restore --configuration Release --verbosity normal
