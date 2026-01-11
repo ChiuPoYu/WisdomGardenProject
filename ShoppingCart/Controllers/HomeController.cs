@@ -53,7 +53,7 @@ namespace ShoppingCart.Controllers
 
                 #region 解析購物車商品
                 var cart = new Cart();
-                var productLines = productsInput.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                var productLines = productsInput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
                 
                 foreach (var line in productLines)
                 {
