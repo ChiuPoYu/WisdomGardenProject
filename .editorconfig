@@ -1,0 +1,45 @@
+root = true
+
+# 所有檔案的預設設定
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# 原始碼檔案
+[*.cs]
+indent_style = space
+indent_size = 4
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# 專案檔案
+[*.{csproj,props,targets}]
+indent_size = 2
+
+# YAML 檔案
+[*.{yml,yaml}]
+indent_size = 2
+
+# JSON 檔案
+[*.json]
+indent_size = 2
+
+# Razor 檔案
+[*.{cshtml,razor}]
+indent_size = 4
+
+# Markdown 檔案
+[*.md]
+trim_trailing_whitespace = false
+
+# Shell 腳本
+[*.sh]
+end_of_line = lf
+
+# Windows 腳本
+[*.{bat,cmd,ps1}]
+end_of_line = crlf

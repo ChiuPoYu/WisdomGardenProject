@@ -8,31 +8,23 @@ namespace ShoppingCart.Controllers
 {
     public class HomeController : Controller
     {
-        // 建立DB假資料
         private readonly List<Product> _products = new List<Product>
         {
-            // 電子產品
             new Product("ipad", ProductType.Electric),
             new Product("iphone", ProductType.Electric),
             new Product("螢幕", ProductType.Electric),
             new Product("筆記型電腦", ProductType.Electric),
             new Product("鍵盤", ProductType.Electric),
-            
-            // 食品
             new Product("麵包", ProductType.Food),
             new Product("餅乾", ProductType.Food),
             new Product("蛋糕", ProductType.Food),
             new Product("牛肉", ProductType.Food),
             new Product("魚", ProductType.Food),
             new Product("蔬菜", ProductType.Food),
-            
-            // 日用品
             new Product("餐巾紙", ProductType.LifeUsed),
             new Product("收納箱", ProductType.LifeUsed),
             new Product("咖啡杯", ProductType.LifeUsed),
             new Product("雨傘", ProductType.LifeUsed),
-            
-            // 酒類
             new Product("啤酒", ProductType.Alcohol),
             new Product("白酒", ProductType.Alcohol),
             new Product("伏特加", ProductType.Alcohol)
@@ -48,88 +40,94 @@ namespace ShoppingCart.Controllers
         {
             try
             {
-                // 建立訂單
-                Order order = new Order();
-
-                #region 解析購物車商品
+                var order = new Order();
                 var cart = new Cart();
-                var productLines = productsInput.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                
+                var separators = new string[] { Environment.NewLine, "\r\n", "\r", "\n" };
+                var productLines = productsInput.Split(separators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                 
                 foreach (var line in productLines)
                 {
-                    var trimmedLine = line.Trim();
-                    if (string.IsNullOrWhiteSpace(trimmedLine))
+                    if (string.IsNullOrWhiteSpace(line))
                         continue;
 
-                    // 格式：數量*商品:單價
-                    var parts = trimmedLine.Split('*');
+                    var parts = line.Split('*', StringSplitOptions.TrimEntries);
                     if (parts.Length != 2)
                         continue;
 
-                    int quantity = int.Parse(parts[0].Trim());
-                    var productInfo = parts[1].Split(':');
+                    if (!int.TryParse(parts[0], out int quantity))
+                        continue;
+                        
+                    var productInfo = parts[1].Split(':', StringSplitOptions.TrimEntries);
                     if (productInfo.Length != 2)
                         continue;
 
-                    string productName = productInfo[0].Trim();
-                    float price = float.Parse(productInfo[1].Trim());
+                    string productName = productInfo[0];
+                    if (!float.TryParse(productInfo[1], out float price))
+                        continue;
 
-                    // 根據商品名稱判斷類型（簡化處理）
                     var product = _products.FirstOrDefault(p => p.name == productName);
                     if (product != null)
                     {
-                        product.price = price;
-                        product.quantity = quantity;
-                        cart.products.Add(product);
+                        var productCopy = new Product(product.name, product.productType)
+                        {
+                            price = price,
+                            quantity = quantity
+                        };
+                        cart.products.Add(productCopy);
                     }
                 }
-                #endregion
 
-                #region 解析折價券
                 if (!string.IsNullOrWhiteSpace(couponInput))
                 {
                     var couponParts = couponInput.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    if (couponParts.Length == 3)
+                    if (couponParts.Length == 3 &&
+                        DateTime.TryParse(couponParts[0].Replace('.', '/'), out DateTime couponExpired) &&
+                        int.TryParse(couponParts[1], out int spendAmount) &&
+                        int.TryParse(couponParts[2], out int discountAmount))
                     {
-                        DateTime expiredAt = DateTime.Parse(couponParts[0].Replace('.', '/'));
-                        int spendAmount = int.Parse(couponParts[1]);
-                        int discountAmount = int.Parse(couponParts[2]);
-                        cart.coupon = new Coupon(expiredAt, spendAmount, discountAmount);
+                        cart.coupon = new Coupon(couponExpired, spendAmount, discountAmount);
                     }
                 }
-                #endregion
 
-                #region 解析結算日期
-                DateTime createdAt = DateTime.Parse(orderDate.Replace('.', '/'));
-                #endregion
+                if (DateTime.TryParse(orderDate.Replace('.', '/'), out DateTime createdAt))
+                {
+                    order.createdAt = createdAt;
+                }
+                else
+                {
+                    order.createdAt = DateTime.Now;
+                }
 
-                #region 解析促銷活動
                 if (!string.IsNullOrWhiteSpace(promotionInput))
                 {
                     var promotionParts = promotionInput.Trim().Split('|', StringSplitOptions.RemoveEmptyEntries);
-                    if (promotionParts.Length == 3)
+                    if (promotionParts.Length == 3 &&
+                        DateTime.TryParse(promotionParts[0].Replace('.', '/'), out DateTime promoExpired) &&
+                        float.TryParse(promotionParts[1], out float discount))
                     {
-                        DateTime expiredAt = DateTime.Parse(promotionParts[0].Replace('.', '/'));
-                        float discount = float.Parse(promotionParts[1]);
-                        order.promotion = new Promotion
+                        var productType = promotionParts[2] switch
                         {
-                            expiredAt = expiredAt,
-                            discountPercent = discount,
-                            productType = promotionParts[2] switch
-                            {
-                                "電子" => ProductType.Electric,
-                                "食品" => ProductType.Food,
-                                "日用品" => ProductType.LifeUsed,
-                                "酒類" => ProductType.Alcohol,
-                                _ => throw new ArgumentException($"未知的商品類型: {promotionParts[2]}")
-                            }
+                            "電子" => ProductType.Electric,
+                            "食品" => ProductType.Food,
+                            "日用品" => ProductType.LifeUsed,
+                            "酒類" => ProductType.Alcohol,
+                            _ => (ProductType?)null
                         };
+                        
+                        if (productType.HasValue)
+                        {
+                            order.promotion = new Promotion
+                            {
+                                expiredAt = promoExpired,
+                                discountPercent = discount,
+                                productType = productType.Value
+                            };
+                        }
                     }
                 }
-                #endregion
 
                 order.cart = cart;
-                order.createdAt = createdAt;
 
                 return View("OrderConfirmation", order);
             }
