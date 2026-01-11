@@ -32,13 +32,5 @@ namespace DBScriptsConvert.Controllers
             return result.Script;
         }
 
-        public bool IsValidInput(string input)
-        {
-            
-            var result = _convertService.CheckInput(input);
-
-            // 使用正則表達式檢查輸入是否符合模式
-            return 
-        }
     }
 }
